@@ -87,7 +87,93 @@ vagrant up
 ![image](https://github.com/user-attachments/assets/16a7fdc5-8dbe-446e-86c1-bb3559b34f4b)
 ![image](https://github.com/user-attachments/assets/c4f3ff69-7fcb-4866-8323-88306d1ed0ff)
 
-После успешной установки Ansible, напишем inventory файл
+После успешной установки Ansible, напишем inventory файл:
+![image](https://github.com/user-attachments/assets/cff6a83d-05ef-4af0-83a2-1748deec9325)
+
+## 3. Написание playbook для установки Docker
+
+```yaml
+---
+- hosts: app
+  become: true
+  tasks:
+  - name: Install required system packages
+    apt:
+        pkg:
+        - curl
+        - git
+        - lynx
+        state: latest
+        update_cache: true
+
+  - name: Add Docker GPG apt Key
+    apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+  - name: Add Docker Repository
+    apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+  - name: Update apt and install docker-ce
+    apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+  - name: Add current user to the docker group
+    user:
+        name: "{{ ansible_user }}"
+        groups: docker
+    apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+  - name: Add current user to the docker group
+    user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+        update_cache: true
+
+  - name: Add current user to the docker group
+    user:
+        name: "{{ ansible_user }}"
+        groups: docker
+    user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        name: "{{ ansible_user }}"
+        groups: docker
+        groups: docker
+        append: yes
+
+  - name: Clone github repo
+    git:
+        repo: 'https://github.com/mdn/django-locallibrary-tutorial.git'
+        dest: /home/{{ ansible_user }}/app
+        version: main
+        update: yes
+
+  - name: Pull the Django Docker image
+    docker_image:
+        name: timurbabs/django
+        tag: latest
+        source: pull
+
+  - name: Run the Django container
+    docker_container:
+        name: django_app
+        image: timurbabs/django:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "8000:8000"
+```
+
 
 
 
