@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
 
   BRIDGE = "Intel(R) Wi-Fi 6 AX200 160MHz"
     
-  (1..1).each do |i|
+  (1..4).each do |i|
     config.vm.define "worker#{i}" do |worker|
       worker.vm.network "private_network", ip: "192.168.0.10#{i}"
       worker.vm.network "public_network", bridge: BRIDGE
@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
 
       sudo chmod 444 /home/vagrant/.ssh/id_rsa
 
-      for i in {101..102}
+      for i in {101..104}
       do
         sshpass -p vagrant ssh-copy-id -o StrictHostKeyChecking=no -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.0.$i || echo "Failed to copy key to 192.168.0.$i"
       done
