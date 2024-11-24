@@ -77,6 +77,7 @@ vagrant up
 ![image](https://github.com/user-attachments/assets/0f51580c-7bec-4840-b412-33a3ce432f00)
 
 Проверяем доступ к машинам:
+
 ![image](https://github.com/user-attachments/assets/a4fbf038-dd92-480a-a2a4-8da1b7a2deb3)
 
 ## 2. Ansible и Inventory файл 
@@ -88,9 +89,12 @@ vagrant up
 ![image](https://github.com/user-attachments/assets/c4f3ff69-7fcb-4866-8323-88306d1ed0ff)
 
 После успешной установки Ansible, напишем inventory файл:
+
 ![image](https://github.com/user-attachments/assets/cff6a83d-05ef-4af0-83a2-1748deec9325)
 
 ## 3. Написание playbook для установки Docker
+
+Создадим в директории ansible_project/playbooks/ новый lab1_playbook:
 
 ```yaml
 ---
@@ -103,8 +107,15 @@ vagrant up
         - curl
         - git
         - lynx
+        - python3-pip
         state: latest
         update_cache: true
+
+  - name: Install Docker SDK for Python
+    pip:
+        name: docker
+        state: present
+        executable: pip3
 
   - name: Add Docker GPG apt Key
     apt_key:
@@ -125,29 +136,6 @@ vagrant up
   - name: Add current user to the docker group
     user:
         name: "{{ ansible_user }}"
-        groups: docker
-    apt:
-        name: docker-ce
-        state: latest
-        update_cache: true
-
-  - name: Add current user to the docker group
-    user:
-        name: "{{ ansible_user }}"
-        groups: docker
-        append: yes
-
-        update_cache: true
-
-  - name: Add current user to the docker group
-    user:
-        name: "{{ ansible_user }}"
-        groups: docker
-    user:
-        name: "{{ ansible_user }}"
-        groups: docker
-        name: "{{ ansible_user }}"
-        groups: docker
         groups: docker
         append: yes
 
@@ -174,6 +162,24 @@ vagrant up
           - "8000:8000"
 ```
 
+## 4. Запускаем приложение и проверяем работоспособность
 
+Для запуска используем следующую команду:
 
+```bash
+ansible-playbook -i inventory.yml -l app -u vagrant lab1_plb.yml
+```
+
+![image](https://github.com/user-attachments/assets/b71519b5-2327-4c57-b740-59aa908fac51)
+![image](https://github.com/user-attachments/assets/9e4906fd-cb3f-44e2-826b-726775ad57d7)
+
+Проверим работу, зайдя на один из серверов, используя команду:
+
+```bash
+lynx http://localhost:8000
+```
+
+В конечном итоге увидим следующее:
+
+![image](https://github.com/user-attachments/assets/f513ce86-1790-4288-9470-eae1b4f7a0dc)
 
