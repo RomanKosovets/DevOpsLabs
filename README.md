@@ -80,12 +80,14 @@ vagrant up
 ![image](https://github.com/user-attachments/assets/a4fbf038-dd92-480a-a2a4-8da1b7a2deb3)
 
 ## 2. Ansible и Inventory файл 
-image
 
-image
+Для дальнейшей работы скачиваем нужные библиотеки для Ansible и сам Ansible на master ноде:
 
-Попробуем подключиться к одному из серверов:
+![image](https://github.com/user-attachments/assets/6ac53244-bd1c-4b58-943c-0dd5f2e9cff4)
+![image](https://github.com/user-attachments/assets/16a7fdc5-8dbe-446e-86c1-bb3559b34f4b)
+![image](https://github.com/user-attachments/assets/c4f3ff69-7fcb-4866-8323-88306d1ed0ff)
 
-image
+После успешной установки Ansible, напишем inventory файл
 
-Успешно!
+
+
