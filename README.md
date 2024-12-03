@@ -118,11 +118,12 @@
 ## 5. Создать файл requirements.yml для установки роли Docker из репозитория
 
 Создадим файл для автоматической установки роли Docker из репозитория, где указан источник, а также используем команду для установки роли
-![telegram-cloud-document-2-5368653130806353805](https://github.com/user-attachments/assets/454bdb3b-60c4-4273-8434-88936b98f9b0)
+
 <img width="822" alt="image" src="https://github.com/user-attachments/assets/5e4dac73-8075-46f3-8a45-0f52e2a80b24">
 
-
 ## 6. Запустить приложение на нодах группы [app] используя ansible-playbook с ролью “**Docker**”
-Запускаем приложение на нодах с помощью команды
+
+Запускаем ansible-playbook с ролью Docker на нодах с помощью команды:
+
 <img width="954" alt="image" src="https://github.com/user-attachments/assets/64f629e3-1851-455a-b7d1-5b3b928f5853">
 
