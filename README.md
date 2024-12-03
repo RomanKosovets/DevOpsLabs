@@ -25,13 +25,6 @@
 Используя плейбук из первой ЛР, где описаны задачи установки Docker, перемещаем соответствующие задачи в файл tasks/main.yml роли docker
 
 ```bash
-- name: Install required system packages
-  apt:
-    pkg:
-    - python3-pip
-    state: latest
-    update_cache: true
-
 - name: Install Docker SDK for Python
   pip:
     name: docker
@@ -69,34 +62,27 @@
 
 ```bash
 ---
-- name: Install required system packages
-  apt:
-    pkg:
-    - python3-pip
-    state: {{ python3-pip_install_state }}
-    update_cache: {{ python3-pip_install_update_cache }}
-
 - name: Install Docker SDK for Python
   pip:
     name: docker
-    state: {{ docker_install_state }}
+    state: "{{ docker_install_state }}"
     executable: pip3
 
 - name: Add Docker GPG apt Key
   apt_key:
-    url: {{ docker_apt_gpg-key_url }}                
+    url: "{{ docker_apt_gpg-key_url }}"                
     state: present
 
 - name: Add Docker Repository
   apt_repository:
-    repo: {{ docker_apt_repo }}
+    repo: "{{ docker_apt_repo }}"
     state: present
 
 - name: Update apt and install docker-ce
   apt:
     name: docker-ce
-    state: {{ docker-ce_install_state }}
-    update_cache: {{ docker-ce_install_update_cache }}
+    state: "{{ docker-ce_install_state }}"
+    update_cache: "{{ docker-ce_install_update_cache }}"
 
 - name: Add current user to the docker group
   user:
