@@ -108,7 +108,13 @@
 ![image](https://github.com/user-attachments/assets/4568c599-e55b-4b2e-ad17-c756b764cf3f)
 ![image](https://github.com/user-attachments/assets/c86710e5-254c-477c-a4bf-b67cf76d6471)
 
-
 ## 4. Создать в gitlab группу для репозиториев с ролями, запушить роль “**Docker**” в репозиторий
+
+В gitlab была создана группа и запушена роль Docker в репозиторий
+
+<img width="1256" alt="image" src="https://github.com/user-attachments/assets/28a571a3-e516-46c1-83de-28b008efe985">
+<img width="481" alt="image" src="https://github.com/user-attachments/assets/5e9ac1f0-2cbc-4a06-a73a-5959195a895d">
+
 ## 5. Создать файл requirements.yml для установки роли Docker из репозитория
+
 ## 6. Запустить приложение на нодах группы [app] используя ansible-playbook с ролью “**Docker**”
