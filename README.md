@@ -83,3 +83,13 @@ roles:
     version: main
 ```
 
+Дальше был написан простой playbook для nginx:
+
+```bash
+---
+- hosts: web
+  become: yes
+
+  roles:
+    - nginx
+```
