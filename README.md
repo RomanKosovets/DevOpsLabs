@@ -44,12 +44,30 @@ ansible-galaxy init Nginx
     enabled: true
 ```
 
-<img width="348" alt="image" src="https://github.com/user-attachments/assets/384001d7-a8ea-48b1-a3c1-a07a178bcf9c">
-
 Также некоторые переменные были вынесены в папку default:
 
 <img width="470" alt="image" src="https://github.com/user-attachments/assets/bbd7294e-a047-40db-8227-4a741913a146">
 
+Добавлен файл nginx.conf.j2 в ```Nginx/templates/nginx.conf.j2``` и также для переопределения добавлен в файл ```inventory/templates/nginx.conf.j2```
+
+```bash
+server {
+    listen 80;
+    server_name localhost;
+
+    location /static/ {
+        alias /home/{{ ansible_user }}/app/catalog/static/;
+    }
+
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
 
 ## 4. Создать в gitlab группу для репозиториев с ролями, запушить роль “**Docker**” в репозиторий
 
