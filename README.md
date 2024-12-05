@@ -81,5 +81,5 @@ roles:
   - name: nginx
     src: https://gitlab.com/itmo-devops-ansible-roles/labs/-/archive/main/labs-main.tar
     version: main
-``
+```
 
