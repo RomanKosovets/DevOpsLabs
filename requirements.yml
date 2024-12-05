@@ -1,0 +1,5 @@
+---
+roles:
+  - name: Docker
+    src: https://gitlab.com/itmo-devops-ansible-roles/lab2/-/archive/main/lab2-main.tar
+    version: main
