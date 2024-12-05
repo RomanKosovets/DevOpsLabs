@@ -111,5 +111,9 @@
 
 Запускаем ansible-playbook с ролью Docker на нодах с помощью команды:
 
+```bash
+ansible-playbook -i inventory.yml -u vagrant /home/vagrant/ansible_projects/playbooks/lab1_playbook2
+```
+
 <img width="954" alt="image" src="https://github.com/user-attachments/assets/64f629e3-1851-455a-b7d1-5b3b928f5853">
 
