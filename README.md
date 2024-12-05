@@ -48,7 +48,8 @@ ansible-galaxy init Nginx
 
 <img width="470" alt="image" src="https://github.com/user-attachments/assets/bbd7294e-a047-40db-8227-4a741913a146">
 
-Добавлен файл nginx.conf.j2 в ```Nginx/templates/nginx.conf.j2``` и также для переопределения добавлен в файл ```inventory/templates/nginx.conf.j2```
+
+Добавлен файл nginx.conf.j2 в ```Nginx/templates/nginx.conf.j2``` и также для переопределения добавлен в файл ```inventory/templates/nginx.conf.j2```, как и default переменки для template
 
 ```bash
 server {
@@ -69,22 +70,16 @@ server {
 }
 ```
 
-## 4. Создать в gitlab группу для репозиториев с ролями, запушить роль “**Docker**” в репозиторий
+также меняем requirements.yml, прописывая путь до роли с гитлаба
 
-В gitlab была создана группа и запушена роль Docker в репозиторий
-
-<img width="1256" alt="image" src="https://github.com/user-attachments/assets/28a571a3-e516-46c1-83de-28b008efe985">
-<img width="481" alt="image" src="https://github.com/user-attachments/assets/5e9ac1f0-2cbc-4a06-a73a-5959195a895d">
-
-## 5. Создать файл requirements.yml для установки роли Docker из репозитория
-
-Создадим файл для автоматической установки роли Docker из репозитория, где указан источник, а также используем команду для установки роли
-
-<img width="822" alt="image" src="https://github.com/user-attachments/assets/5e4dac73-8075-46f3-8a45-0f52e2a80b24">
-
-## 6. Запустить приложение на нодах группы [app] используя ansible-playbook с ролью “**Docker**”
-
-Запускаем ansible-playbook с ролью Docker на нодах с помощью команды:
-
-<img width="954" alt="image" src="https://github.com/user-attachments/assets/64f629e3-1851-455a-b7d1-5b3b928f5853">
+```bash
+---
+roles:
+  - name: Docker
+    src: https://gitlab.com/itmo-devops-ansible-roles/labs/-/archive/main/labs-main.tar
+    version: main
+  - name: nginx
+    src: https://gitlab.com/itmo-devops-ansible-roles/labs/-/archive/main/labs-main.tar
+    version: main
+``
 
