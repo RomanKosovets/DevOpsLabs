@@ -34,7 +34,7 @@ playbook:
     - openvpn
  ```
 
-default/main.yml и vars/main.yml: 
+default/main.yml и vars/main.yml переменки для шаблонов сервера и клиента: 
 
 ```bash
 openvpn_packages:
@@ -218,3 +218,75 @@ tasks/main.yml:
     src: client.ovpn.j2
     dest: "client.ovpn"
 ```
+
+Добавим шаблон для сервера, на котором мы разворачиваем роль openvpn в файле /openvpn/templetes/server.conf.j2:
+
+```bash
+port {{ openvpn_port }}
+proto {{ openvpn_proto }}
+dev {{ openvpn_dev }}
+server {{ openvpn_server_subnet }}
+ifconfig-pool-persist ipp.txt
+push "route {{ openvpn_server_subnet }}"
+user {{ openvpn_user }}
+group {{ openvpn_group }}
+{% if openvpn_persist_key %}
+ca {{ openvpn_ca }}
+cert {{ openvpn_cert }}
+key {{ openvpn_key }}
+dh {{ openvpn_dh }}
+log-append {{ openvpn_log }}
+persist-key
+{% endif %}
+{% if openvpn_persist_tun %}
+persist-tun
+{% endif %}
+keepalive {{ openvpn_keepalive }}
+status {{ openvpn_status_log }} 1
+```
+
+Также добавим шаблон для клиент-сервера в файле /openvpn/templetes/client.ovpn.j2:
+
+```bash
+client
+proto {{ openvpn_proto }}
+dev {{ openvpn_dev }}
+remote {{ openvpn_server_subnet }}
+nobind
+persist-key
+persist-tun
+ca ca.crt
+cert client.crt
+key client.key
+cipher AES-256-CBC
+```
+
+Изменим конфигурационный файл molecule.yml для тестрования ansible роли:
+
+```bash
+---
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: True
+    ignore-errors: True
+    role-file: requirements.yml
+
+driver:
+  name: docker
+
+platforms:
+  - name: instance
+    image: geerlingguy/docker-ubuntu2004-ansible
+    privileged: true
+    pre_build_image: true
+
+provisioner:
+  name: ansible
+
+verifier:
+  name: ansible
+```
+пушим все на гит
+<img width="512" alt="image" src="https://github.com/user-attachments/assets/8bab4c80-5221-4c36-a1dd-1eceff5be24f" />
+
