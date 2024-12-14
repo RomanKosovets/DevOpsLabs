@@ -290,3 +290,317 @@ verifier:
 пушим все на гит
 <img width="512" alt="image" src="https://github.com/user-attachments/assets/8bab4c80-5221-4c36-a1dd-1eceff5be24f" />
 
+## 3. При завершении работы плейбук должен разместить в playbook-dir артефактный ovpn-файл для подключения:
+
+Запускаем playbook с помощью команды: 
+
+```bash
+ansible-playbook -i inventory/hosts -u vagrant /home/vagrant/playbooks/openvpn_playbook
+```
+
+Worker1 является сервером openvpn:
+
+<img width="276" alt="image" src="https://github.com/user-attachments/assets/f77788ce-83f1-49e3-bf87-b6145894f066" />
+
+Запускаем openvpn на клиенте worker2:
+```bash
+sudo openvpn --config ~/openvpn/client.ovpn
+```
+
+<img width="615" alt="image" src="https://github.com/user-attachments/assets/53db7d57-42e4-4a11-9a39-9b973e45c647" />
+
+проверяем
+<img width="538" alt="image" src="https://github.com/user-attachments/assets/8f5bfde9-a1f5-4f1d-bef8-452105c6956d" />
+
+
+## 4. Роль должна проходить стандартные тестами molecule test:
+
+Для этого запускаем тесты с помощью команды ```bash molecule test```
+
+```bash
+vagrant@master:~/roles/openvpn$ molecule test
+WARNING  The scenario config file ('/home/vagrant/roles/openvpn/molecule/default/molecule.yml') has been modified since the scenario was created. If recent changes are important, reset the scenario with 'molecule destroy' to clean up created items or 'molecule reset' to clear current configuration.
+WARNING  Driver docker does not provide a schema.
+INFO     default scenario test matrix: dependency, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
+INFO     Performing prerun with role_name_check=0...
+INFO     Running default > dependency
+WARNING  Skipping, missing the requirements file.
+WARNING  Skipping, missing the requirements file.
+INFO     Running default > cleanup
+WARNING  Skipping, cleanup playbook not configured.
+INFO     Running default > destroy
+INFO     Sanity checks: 'docker'
+
+PLAY [Destroy] *****************************************************************
+
+TASK [Set async_dir for HOME env] **********************************************
+ok: [localhost]
+
+TASK [Destroy molecule instance(s)] ********************************************
+changed: [localhost] => (item=instance)
+
+TASK [Wait for instance(s) deletion to complete] *******************************
+FAILED - RETRYING: [localhost]: Wait for instance(s) deletion to complete (300 retries left).
+ok: [localhost] => (item=instance)
+
+TASK [Delete docker networks(s)] ***********************************************
+skipping: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Running default > syntax
+
+playbook: /home/vagrant/roles/openvpn/molecule/default/converge.yml
+INFO     Running default > create
+
+PLAY [Create] ******************************************************************
+
+TASK [Set async_dir for HOME env] **********************************************
+ok: [localhost]
+
+TASK [Log into a Docker registry] **********************************************
+skipping: [localhost] => (item=None) 
+skipping: [localhost]
+
+TASK [Check presence of custom Dockerfiles] ************************************
+ok: [localhost] => (item={'image': 'geerlingguy/docker-ubuntu2004-ansible', 'name': 'instance', 'pre_build_image': True, 'privileged': True})
+
+TASK [Create Dockerfiles from image names] *************************************
+skipping: [localhost] => (item={'image': 'geerlingguy/docker-ubuntu2004-ansible', 'name': 'instance', 'pre_build_image': True, 'privileged': True}) 
+skipping: [localhost]
+
+TASK [Synchronization the context] *********************************************
+skipping: [localhost] => (item={'image': 'geerlingguy/docker-ubuntu2004-ansible', 'name': 'instance', 'pre_build_image': True, 'privileged': True}) 
+skipping: [localhost]
+
+TASK [Discover local Docker images] ********************************************
+ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'false_condition': 'not item.pre_build_image | default(false)', 'item': {'image': 'geerlingguy/docker-ubuntu2004-ansible', 'name': 'instance', 'pre_build_image': True, 'privileged': True}, 'ansible_loop_var': 'item', 'i': 0, 'ansible_index_var': 'i'})
+
+TASK [Build an Ansible compatible image (new)] *********************************
+skipping: [localhost] => (item=molecule_local/geerlingguy/docker-ubuntu2004-ansible) 
+skipping: [localhost]
+
+TASK [Create docker network(s)] ************************************************
+skipping: [localhost]
+
+TASK [Determine the CMD directives] ********************************************
+ok: [localhost] => (item={'image': 'geerlingguy/docker-ubuntu2004-ansible', 'name': 'instance', 'pre_build_image': True, 'privileged': True})
+
+TASK [Create molecule instance(s)] *********************************************
+changed: [localhost] => (item=instance)
+
+TASK [Wait for instance(s) creation to complete] *******************************
+
+changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': 'j315737821553.7519', 'results_file': '/home/vagrant/.ansible_async/j315737821553.7519', 'changed': True, 'item': {'image': 'geerlingguy/docker-ubuntu2004-ansible', 'name': 'instance', 'pre_build_image': True, 'privileged': True}, 'ansible_loop_var': 'item'})
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=6    changed=2    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
+
+INFO     Running default > prepare
+WARNING  Skipping, prepare playbook not configured.
+INFO     Running default > converge
+
+PLAY [Converge] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [instance]
+
+TASK [openvpn : Update apt cache] **********************************************
+ok: [instance]
+
+TASK [openvpn : Install OpenVPN and Easy-RSA] **********************************
+changed: [instance]
+
+TASK [openvpn : Check if Easy-RSA directory exists] ****************************
+ok: [instance]
+
+TASK [openvpn : Create Easy-RSA directory if it doesn't exist] *****************
+changed: [instance]
+
+TASK [openvpn : Check if PKI directory exists] *********************************
+ok: [instance]
+
+TASK [openvpn : Create PKI directory if it doesn't exist] **********************
+changed: [instance]
+
+TASK [openvpn : Check if CA certificate already exists] ************************
+ok: [instance]
+
+TASK [openvpn : Build CA without password and common name] *********************
+changed: [instance]
+
+TASK [openvpn : Check if server key already exists] ****************************
+ok: [instance]
+
+TASK [openvpn : Generate server request without password] **********************
+changed: [instance]
+
+TASK [openvpn : Check if server certificate already exists] ********************
+ok: [instance]
+
+TASK [openvpn : Request sign for server certificate] ***************************
+changed: [instance]
+
+TASK [openvpn : Check if Diffie-Hellman parameters already exist] **************
+ok: [instance]
+
+TASK [openvpn : Generate Diffie-Hellman parameters] ****************************
+changed: [instance]
+
+TASK [openvpn : Check if TLS key already exists] *******************************
+ok: [instance]
+
+TASK [openvpn : Generate TLS key] **********************************************
+changed: [instance]
+
+TASK [openvpn : Ensure OpenVPN directory] **************************************
+ok: [instance]
+
+TASK [openvpn : Copy required files to OpenVPN directory] **********************
+changed: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/ca.crt', 'dest': '/etc/openvpn//ca.crt'})
+changed: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/issued/server.crt', 'dest': '/etc/openvpn//server.crt'})
+changed: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/private/server.key', 'dest': '/etc/openvpn//server.key'})
+changed: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/dh.pem', 'dest': '/etc/openvpn//dh.pem'})
+changed: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/ta.key', 'dest': '/etc/openvpn//ta.key'})
+
+TASK [openvpn : Apply OpenVPN server configuration] ****************************
+changed: [instance]
+
+TASK [openvpn : Check if OpenVPN is running] ***********************************
+ok: [instance]
+
+TASK [openvpn : Start OpenVPN server manually] *********************************
+skipping: [instance]
+
+TASK [openvpn : Create client configuration file] ******************************
+changed: [instance]
+
+PLAY RECAP *********************************************************************
+instance                   : ok=22   changed=11   unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Running default > idempotence
+
+PLAY [Converge] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [instance]
+
+TASK [openvpn : Update apt cache] **********************************************
+ok: [instance]
+
+TASK [openvpn : Install OpenVPN and Easy-RSA] **********************************
+ok: [instance]
+
+TASK [openvpn : Check if Easy-RSA directory exists] ****************************
+ok: [instance]
+
+TASK [openvpn : Create Easy-RSA directory if it doesn't exist] *****************
+skipping: [instance]
+
+TASK [openvpn : Check if PKI directory exists] *********************************
+ok: [instance]
+
+TASK [openvpn : Create PKI directory if it doesn't exist] **********************
+skipping: [instance]
+
+TASK [openvpn : Check if CA certificate already exists] ************************
+ok: [instance]
+
+TASK [openvpn : Build CA without password and common name] *********************
+skipping: [instance]
+
+TASK [openvpn : Check if server key already exists] ****************************
+ok: [instance]
+
+TASK [openvpn : Generate server request without password] **********************
+skipping: [instance]
+
+TASK [openvpn : Check if server certificate already exists] ********************
+ok: [instance]
+
+TASK [openvpn : Request sign for server certificate] ***************************
+skipping: [instance]
+
+TASK [openvpn : Check if Diffie-Hellman parameters already exist] **************
+ok: [instance]
+
+TASK [openvpn : Generate Diffie-Hellman parameters] ****************************
+skipping: [instance]
+
+TASK [openvpn : Check if TLS key already exists] *******************************
+ok: [instance]
+
+TASK [openvpn : Generate TLS key] **********************************************
+skipping: [instance]
+
+TASK [openvpn : Ensure OpenVPN directory] **************************************
+ok: [instance]
+
+TASK [openvpn : Copy required files to OpenVPN directory] **********************
+ok: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/ca.crt', 'dest': '/etc/openvpn//ca.crt'})
+ok: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/issued/server.crt', 'dest': '/etc/openvpn//server.crt'})
+ok: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/private/server.key', 'dest': '/etc/openvpn//server.key'})
+ok: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/dh.pem', 'dest': '/etc/openvpn//dh.pem'})
+ok: [instance] => (item={'src': '/etc/openvpn/easy-rsa/pki/ta.key', 'dest': '/etc/openvpn//ta.key'})
+
+TASK [openvpn : Apply OpenVPN server configuration] ****************************
+ok: [instance]
+
+TASK [openvpn : Check if OpenVPN is running] ***********************************
+ok: [instance]
+
+TASK [openvpn : Start OpenVPN server manually] *********************************
+skipping: [instance]
+
+TASK [openvpn : Create client configuration file] ******************************
+ok: [instance]
+
+PLAY RECAP *********************************************************************
+instance                   : ok=15   changed=0    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+
+INFO     Idempotence completed successfully.
+INFO     Running default > side_effect
+WARNING  Skipping, side effect playbook not configured.
+INFO     Running default > verify
+INFO     Running Ansible Verifier
+WARNING  Skipping, verify playbook not configured.
+INFO     Verifier completed successfully.
+INFO     Running default > cleanup
+WARNING  Skipping, cleanup playbook not configured.
+INFO     Running default > destroy
+
+PLAY [Destroy] *****************************************************************
+
+TASK [Set async_dir for HOME env] **********************************************
+ok: [localhost]
+
+TASK [Destroy molecule instance(s)] ********************************************
+changed: [localhost] => (item=instance)
+
+TASK [Wait for instance(s) deletion to complete] *******************************
+FAILED - RETRYING: [localhost]: Wait for instance(s) deletion to complete (300 retries left).
+changed: [localhost] => (item=instance)
+
+TASK [Delete docker networks(s)] ***********************************************
+skipping: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=3    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Pruning extra files from scenario ephemeral directory
+```
+
+## 5. Плейбук подключает роль через ansible-galaxy:
+
+Добавляем в requirements.yml ссылку на роль с гитлаба и запускаем:
+
+<img width="806" alt="image" src="https://github.com/user-attachments/assets/6b532172-98fc-4b3c-932b-c467d12d5854" />
+
+```bash
+ansible-galaxy install -r requirements.yml
+```
+Также в файле molecule.yml подключаем requirements.yml:
+
+<img width="535" alt="image" src="https://github.com/user-attachments/assets/8d70a398-57ea-441f-b7bd-09399478f142" />
+
