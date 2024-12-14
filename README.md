@@ -194,12 +194,6 @@ tasks/main.yml:
     dest: /etc/openvpn/server.conf
   become: yes
 
-#- name: Start OpenVPN server
-#  systemd:
-#    name: openvpn@server
-#    state: started
-#    enabled: yes
-
 - name: Check if OpenVPN is running
   shell: pgrep -f "openvpn --config /etc/openvpn/server.conf"
   register: openvpn_process
@@ -309,7 +303,8 @@ sudo openvpn --config ~/openvpn/client.ovpn
 
 <img width="615" alt="image" src="https://github.com/user-attachments/assets/53db7d57-42e4-4a11-9a39-9b973e45c647" />
 
-проверяем
+проверяем в логах сервера, что подключение создалось:
+
 <img width="538" alt="image" src="https://github.com/user-attachments/assets/8f5bfde9-a1f5-4f1d-bef8-452105c6956d" />
 
 
