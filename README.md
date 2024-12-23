@@ -34,19 +34,19 @@ replica-node ansoble_host=192.168.0.104
 - hosts: app
   become: yes
   roles:
-    - role: postgresql
+    - role: postgres
       tags: app
 
 - hosts: master
   become: yes
   roles:
-    - role: postgresql
+    - role: postgres
       tags: master
 
 - hosts: replica
   become: yes
   roles:
-    - role: postgresql
+    - role: postgres
       tags: replica
 ```
 
