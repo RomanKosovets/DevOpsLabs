@@ -449,7 +449,7 @@ postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
 Для проверки корректной настройки streaming-репликации, выполним следующие команды:
 Добавим данные для таблицы:
 
-<img width="343" alt="image" src="https://github.com/user-attachments/assets/1cbb426c-71ce-4cf4-b258-3110ca798728" />
+<img width="493" alt="image" src="https://github.com/user-attachments/assets/36d01b26-a542-4e22-861b-f119d9101fd4" />
 
 Теперь перейдем на воркера и проверим, что данные реплицировались:
 
