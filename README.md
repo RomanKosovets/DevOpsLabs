@@ -398,8 +398,19 @@ postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
 ```
 
 Теперь проверим molecule test, что они отрабатывают без ошибок:
-<img width="666" alt="image" src="https://github.com/user-attachments/assets/a551c55e-ed1a-47e2-aaef-bb4f32f58492" />
 
+Converge:
+
+<img width="666" alt="image" src="https://github.com/user-attachments/assets/a551c55e-ed1a-47e2-aaef-bb4f32f58492" />
+<img width="919" alt="image" src="https://github.com/user-attachments/assets/688e2d6d-525e-42e9-bed3-6a70a7f48f35" />
+
+теперь тест на Idempotence:
+
+<img width="650" alt="image" src="https://github.com/user-attachments/assets/cae9f7d6-5a88-4aa3-9c1c-953f667f1418" />
+<img width="924" alt="image" src="https://github.com/user-attachments/assets/44b84edd-49a9-4600-9945-4fcc34dd7dc3" />
+
+Destroy:
+<img width="1233" alt="image" src="https://github.com/user-attachments/assets/ca6773e7-738f-4712-a901-366ca44c5d6c" />
 
 ## 3. Добавить возможность смены директории с данными на кастомную
 
