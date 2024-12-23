@@ -395,8 +395,21 @@ postgresql_key: "/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc"
 
 postgresql_sources_list: "/etc/apt/sources.list.d/pgdg.list"
 postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
+```
+
+Теперь проверим molecule test, что они отрабатывают без ошибок:
+<img width="666" alt="image" src="https://github.com/user-attachments/assets/a551c55e-ed1a-47e2-aaef-bb4f32f58492" />
+
+
 ## 3. Добавить возможность смены директории с данными на кастомную
+
+Для смены директории, в которой будут храниться данные, пропишем данную переменку:
+
+```bash
+postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
+```
+
 ## 4. Добавить возможность создания баз данных и пользователей
 ## 5. Добавить функционал настройки streaming-репликации***
 ## 6. Продумать логику определения master и replica нод СУБД и их настройки при работе роли***
-```
+
