@@ -68,6 +68,7 @@ ansible-galaxy init postgres
 ```
 
 Все описание роли:
+
 defaults/main.yml:
 
 ```bash
@@ -119,6 +120,7 @@ handlers/main.yml:
   failed_when: restart_result.rc != 0 and 'stopped' not in restart_result.stdout
 ```
 Для удобства таски были разбиты на три файла
+
 tasks/main.yml:
 
 ```bash
