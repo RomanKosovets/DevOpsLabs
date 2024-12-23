@@ -25,7 +25,7 @@ worker4 ansible_host=192.168.0.104
 master-node ansible_host=192.168.0.103
 
 [replica]
-replica-node ansoble_host=192.168.0.104
+replica-node ansible_host=192.168.0.104
 ```
 
 также для того, чтобы поднять **кластер**, включающий в себя master и replica node, нам необходимо запустить ansible playbook, кроме этого в tasks будут прописаны определенные условия в конце блоков:
@@ -412,6 +412,15 @@ Converge:
 Destroy:
 <img width="1233" alt="image" src="https://github.com/user-attachments/assets/ca6773e7-738f-4712-a901-366ca44c5d6c" />
 
+После прогонки молекул тестов, запускаем playbook:
+
+```bash
+ansible-playbook -i inventory/hosts -u vagrant /home/vagrant/playbooks/postgres_playbook
+```
+Конечный результат всех тасок:
+
+<img width="924" alt="image" src="https://github.com/user-attachments/assets/5899a483-58d0-4854-baea-e968023d24b9" />
+
 ## 3. Добавить возможность смены директории с данными на кастомную
 
 Для смены директории, в которой будут храниться данные, пропишем данную переменку:
@@ -419,8 +428,24 @@ Destroy:
 ```bash
 postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
 ```
-
 ## 4. Добавить возможность создания баз данных и пользователей
+
+Заходим на мастер и проверяем БД, можно увидеть, что была успешно создана БД test:
+
+<img width="1005" alt="image" src="https://github.com/user-attachments/assets/fea3528b-67cb-4368-bf46-c11949b770c6" />
+
+Также добавим нового пользователя:
+
+Юзеры до добавления нового:
+<img width="850" alt="image" src="https://github.com/user-attachments/assets/0566e82a-a13a-44e3-b06a-bdb893888c78" />
+
+Создаем нового, выдаем права, смотрим, что пользователь появился в таблице:
+<img width="425" alt="image" src="https://github.com/user-attachments/assets/6265125c-242e-45ae-b8cc-2032fdb77bb9" />
+<img width="490" alt="image" src="https://github.com/user-attachments/assets/432d03f8-9120-4b0f-ae7f-606646ae1b49" />
+<img width="837" alt="image" src="https://github.com/user-attachments/assets/b67bd135-8e34-46c7-a147-f6e778876ecb" />
+
 ## 5. Добавить функционал настройки streaming-репликации***
+
+
 ## 6. Продумать логику определения master и replica нод СУБД и их настройки при работе роли***
 
