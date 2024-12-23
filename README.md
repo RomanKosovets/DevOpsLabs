@@ -446,6 +446,20 @@ postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
 
 ## 5. Добавить функционал настройки streaming-репликации***
 
+Для проверки корректной настройки streaming-репликации, выполним следующие команды:
+Добавим данные для таблицы:
+
+<img width="343" alt="image" src="https://github.com/user-attachments/assets/1cbb426c-71ce-4cf4-b258-3110ca798728" />
+
+Теперь перейдем на воркера и проверим, что данные реплицировались:
+
+<img width="487" alt="image" src="https://github.com/user-attachments/assets/955f9e76-6ceb-48af-a380-dd036fe4c465" />
+
+Также проверим, что на воркере нельзя создавать БД, так как она настроена тоолько на чтение данных с master node:
+
+<img width="527" alt="image" src="https://github.com/user-attachments/assets/48d83564-2963-4676-850b-23dca1e8e905" />
+
 
 ## 6. Продумать логику определения master и replica нод СУБД и их настройки при работе роли***
 
+Вся логика описана в tasks роли postgres, которая хранится в этой же репе на гитлабе
