@@ -347,8 +347,56 @@ tasks/replica.yml:
     changed_when: "'server starting' in replica_start.stdout"
     failed_when: "'already running' not in replica_start.stdout and 'port conflict' not in replica_start.stderr and replica_start.rc != 0"
 ```
+Также выносим переменки в inventry/group_vars для переопределения:
 
+master.yml:
+
+```bash
+postgresql_master_listen_addresses: '*'
+postgresql_master_wal_level: replica
+postgresql_master_archive_mode: on
+postgresql_master_archive_command: '/bin/true'
+postgresql_master_max_wal_senders: 5
+postgresql_master_hot_standby: on
+```
+
+replica.yml:
+
+```bash
+postgresql_replica_listen_addresses: '*'
+postgresql_replica_wal_level: replica
+postgresql_replica_archive_mode: on
+postgresql_replica_archive_command: '/bin/true'
+postgresql_replica_max_wal_senders: 5
+postgresql_replica_hot_standby: on
+master_host: 192.168.0.103
+# master_host: master-node
+replication_user: postgres
+```
+
+db.yml:
+
+```bash
+postgresql_user_name: postgres
+postgresql_db_name: test
+
+postgresql_version: "17"
+postgresql_package: postgresql
+postgresql_common_package: postgresql-common
+
+pg_hba_conf_path: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+pg_conf_path: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+
+postgresql_repo_url: "https://apt.postgresql.org/pub/repos/apt"
+postgresql_repo_path: "/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh"
+
+postgresql_key_url: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+postgresql_key: "/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc"
+
+postgresql_sources_list: "/etc/apt/sources.list.d/pgdg.list"
+postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
 ## 3. Добавить возможность смены директории с данными на кастомную
 ## 4. Добавить возможность создания баз данных и пользователей
 ## 5. Добавить функционал настройки streaming-репликации***
 ## 6. Продумать логику определения master и replica нод СУБД и их настройки при работе роли***
+```
